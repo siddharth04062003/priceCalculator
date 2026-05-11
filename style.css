@@ -1,0 +1,398 @@
+/* ===================================================
+   Crochet Pricing Calculator — style.css
+   Palette: warm cream, dusty rose, sage, charcoal
+   Font: DM Serif Display (headings) + DM Sans (body)
+=================================================== */
+
+/* ── Reset & Base ─────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --cream:       #faf7f4;
+  --cream-dark:  #f2ece5;
+  --rose:        #c9847a;
+  --rose-light:  #f0d9d6;
+  --rose-dark:   #a8625a;
+  --sage:        #8aab8e;
+  --sage-light:  #dceadd;
+  --charcoal:    #2e2a27;
+  --muted:       #7a7270;
+  --border:      #e0d6ce;
+  --shadow:      rgba(46,42,39,.08);
+  --radius:      14px;
+  --radius-sm:   8px;
+  --transition:  .2s ease;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  color: var(--charcoal);
+  background: var(--cream);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── Header ───────────────────────────────────── */
+header {
+  background: var(--charcoal);
+  color: #fff;
+  padding: 2rem 1.5rem;
+}
+
+.header-inner {
+  max-width: 760px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-icon { font-size: 2.2rem; line-height: 1; }
+
+header h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 400;
+  letter-spacing: -.5px;
+  color: #fff;
+}
+
+.tagline {
+  font-size: .85rem;
+  color: #b8aca4;
+  margin-top: .2rem;
+}
+
+/* ── Main layout ──────────────────────────────── */
+main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 2rem 1rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ── Cards ────────────────────────────────────── */
+.card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem 1.5rem;
+  box-shadow: 0 2px 12px var(--shadow);
+}
+
+.section-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: var(--charcoal);
+  margin-bottom: 1.25rem;
+  padding-bottom: .6rem;
+  border-bottom: 1.5px solid var(--cream-dark);
+}
+
+.sub-title {
+  font-size: .9rem;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  margin-bottom: .75rem;
+}
+
+/* ── Grid ─────────────────────────────────────── */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 520px) {
+  .grid-2 { grid-template-columns: 1fr; }
+}
+
+/* ── Form fields ──────────────────────────────── */
+.field { display: flex; flex-direction: column; gap: .4rem; }
+
+label {
+  font-size: .82rem;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: .02em;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+  width: 100%;
+  padding: .65rem .9rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--cream);
+  color: var(--charcoal);
+  font-family: inherit;
+  font-size: .95rem;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+input:focus, select:focus {
+  border-color: var(--rose);
+  box-shadow: 0 0 0 3px var(--rose-light);
+  background: #fff;
+}
+
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a7270' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right .9rem center;
+  padding-right: 2.2rem;
+  cursor: pointer;
+}
+
+.optional {
+  font-size: .75rem;
+  color: #bbb;
+  font-weight: 400;
+}
+
+.hint {
+  font-size: .78rem;
+  color: var(--muted);
+  margin-top: .35rem;
+}
+
+/* ── Complexity chips ─────────────────────────── */
+.complexity-group {
+  display: flex;
+  gap: .6rem;
+  flex-wrap: wrap;
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .5rem 1rem;
+  border: 1.5px solid var(--border);
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: .88rem;
+  font-weight: 500;
+  color: var(--muted);
+  background: var(--cream);
+  transition: all var(--transition);
+  user-select: none;
+}
+
+.chip input[type="radio"] { display: none; }
+
+.chip:has(input:checked) {
+  background: var(--charcoal);
+  border-color: var(--charcoal);
+  color: #fff;
+}
+
+.chip:hover:not(:has(input:checked)) {
+  border-color: var(--rose);
+  color: var(--rose-dark);
+}
+
+/* ── Buttons ──────────────────────────────────── */
+.btn-row {
+  display: flex;
+  gap: .75rem;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  flex: 1;
+  padding: .85rem 1.5rem;
+  background: var(--charcoal);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: .02em;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.btn-primary:hover { background: #1a1714; transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(0); }
+
+.btn-ghost {
+  padding: .85rem 1.25rem;
+  background: transparent;
+  color: var(--muted);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: .95rem;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.btn-ghost:hover { border-color: var(--rose); color: var(--rose-dark); }
+
+/* ── Delivery cost field toggle ───────────────── */
+#deliveryCostField { transition: opacity var(--transition); }
+#deliveryCostField.hidden-field { opacity: .35; pointer-events: none; }
+
+/* ── Results card ─────────────────────────────── */
+.results-card { border-top: 3px solid var(--rose); }
+
+.hidden { display: none !important; }
+
+/* ── Breakdown table ──────────────────────────── */
+.breakdown-wrap { margin-bottom: 1.75rem; }
+
+.breakdown-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .9rem;
+}
+
+.breakdown-table td {
+  padding: .5rem .25rem;
+  border-bottom: 1px solid var(--cream-dark);
+  color: var(--charcoal);
+}
+
+.breakdown-table td:last-child {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+.breakdown-table tfoot .total-row td {
+  padding-top: .75rem;
+  font-weight: 700;
+  font-size: 1rem;
+  border-bottom: none;
+  color: var(--charcoal);
+}
+
+.breakdown-table tfoot .total-row td:last-child { color: var(--rose-dark); }
+
+/* ── Price cards ──────────────────────────────── */
+.price-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .9rem;
+  margin-bottom: 1.75rem;
+}
+
+@media (max-width: 560px) {
+  .price-cards { grid-template-columns: 1fr; }
+}
+
+.price-card {
+  border-radius: var(--radius);
+  padding: 1.1rem 1rem;
+  text-align: center;
+  border: 1.5px solid transparent;
+}
+
+.price-card .label {
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  margin-bottom: .4rem;
+}
+
+.price-card .amount {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.65rem;
+  line-height: 1.1;
+}
+
+.price-card .profit-tag {
+  font-size: .72rem;
+  margin-top: .3rem;
+  opacity: .7;
+}
+
+/* Variant colours */
+.price-card.min  { background: var(--cream-dark); border-color: var(--border); }
+.price-card.min .label { color: var(--muted); }
+.price-card.min .amount { color: var(--charcoal); }
+
+.price-card.insta { background: var(--rose-light); border-color: var(--rose); }
+.price-card.insta .label { color: var(--rose-dark); }
+.price-card.insta .amount { color: var(--rose-dark); }
+
+.price-card.premium { background: var(--sage-light); border-color: var(--sage); }
+.price-card.premium .label { color: #4a7a50; }
+.price-card.premium .amount { color: #3a6040; }
+
+/* ── Analysis box ─────────────────────────────── */
+.analysis-box {
+  background: var(--cream);
+  border-radius: var(--radius-sm);
+  padding: 1.25rem 1.2rem;
+  margin-bottom: 1.25rem;
+  border: 1px solid var(--border);
+}
+
+.analysis-box h3 {
+  font-size: .8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--muted);
+  margin-bottom: .75rem;
+}
+
+.analysis-item {
+  display: flex;
+  gap: .6rem;
+  align-items: flex-start;
+  margin-bottom: .6rem;
+  font-size: .9rem;
+  line-height: 1.5;
+}
+
+.analysis-item:last-child { margin-bottom: 0; }
+
+.analysis-item .icon { flex-shrink: 0; margin-top: .05em; }
+
+.tag {
+  display: inline-block;
+  padding: .15rem .55rem;
+  border-radius: 50px;
+  font-size: .75rem;
+  font-weight: 600;
+  margin-left: .35rem;
+}
+
+.tag.green  { background: var(--sage-light); color: #3a6040; }
+.tag.orange { background: #fdecd5; color: #9a5a1a; }
+.tag.red    { background: #fdddd8; color: #9a2e20; }
+
+/* ── Handmade note ────────────────────────────── */
+.handmade-note {
+  font-size: .82rem;
+  color: var(--muted);
+  font-style: italic;
+  text-align: center;
+  margin-top: .5rem;
+}
+
+/* ── Footer ───────────────────────────────────── */
+footer {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  font-size: .8rem;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+}

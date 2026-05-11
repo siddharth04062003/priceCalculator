@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Crochet Pricing Calculator</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <span class="header-icon">🧶</span>
+      <div>
+        <h1>Crochet Pricing Calculator</h1>
+        <p class="tagline">Price your handmade products fairly & confidently</p>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <form id="calcForm" novalidate>
+
+      <!-- Section 1: Product Info -->
+      <section class="card">
+        <h2 class="section-title">Product Details</h2>
+        <div class="grid-2">
+          <div class="field">
+            <label for="productName">Product Name</label>
+            <input type="text" id="productName" placeholder="e.g. Amigurumi Bear" />
+          </div>
+          <div class="field">
+            <label for="productType">Type of Product</label>
+            <select id="productType">
+              <option value="">Select type…</option>
+              <option>Amigurumi / Stuffed Toy</option>
+              <option>Bag / Purse</option>
+              <option>Clothing / Wearable</option>
+              <option>Home Décor</option>
+              <option>Accessories (Hat, Scarf…)</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="complexity">Complexity Level</label>
+          <div class="complexity-group" id="complexity">
+            <label class="chip">
+              <input type="radio" name="complexity" value="simple" /> Simple
+            </label>
+            <label class="chip">
+              <input type="radio" name="complexity" value="medium" checked /> Medium
+            </label>
+            <label class="chip">
+              <input type="radio" name="complexity" value="complex" /> Complex
+            </label>
+          </div>
+          <p class="hint">Simple ₹120/hr · Medium ₹160/hr · Complex ₹200/hr</p>
+        </div>
+      </section>
+
+      <!-- Section 2: Materials -->
+      <section class="card">
+        <h2 class="section-title">Materials</h2>
+        <div class="grid-2">
+          <div class="field">
+            <label for="yarnGrams">Yarn Used (grams)</label>
+            <input type="number" id="yarnGrams" placeholder="e.g. 80" min="0" />
+          </div>
+          <div class="field">
+            <label for="yarnPrice">Yarn Price (per 100g) ₹</label>
+            <input type="number" id="yarnPrice" placeholder="e.g. 150" min="0" />
+          </div>
+          <div class="field">
+            <label for="stuffingGrams">Stuffing Used (grams) <span class="optional">optional</span></label>
+            <input type="number" id="stuffingGrams" placeholder="e.g. 30" min="0" />
+          </div>
+          <div class="field">
+            <label for="stuffingCost">Stuffing Cost ₹ <span class="optional">per 100g</span></label>
+            <input type="number" id="stuffingCost" placeholder="e.g. 60" min="0" />
+          </div>
+          <div class="field">
+            <label for="accessoriesDesc">Accessories Used</label>
+            <input type="text" id="accessoriesDesc" placeholder="e.g. Safety eyes, buttons" />
+          </div>
+          <div class="field">
+            <label for="accessoriesCost">Accessories Cost ₹</label>
+            <input type="number" id="accessoriesCost" placeholder="e.g. 40" min="0" />
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Time -->
+      <section class="card">
+        <h2 class="section-title">Time</h2>
+        <div class="grid-2">
+          <div class="field">
+            <label for="timeSpent">Time Spent Making</label>
+            <input type="number" id="timeSpent" placeholder="e.g. 120" min="0" />
+          </div>
+          <div class="field">
+            <label for="timeUnit">Unit</label>
+            <select id="timeUnit">
+              <option value="minutes">Minutes</option>
+              <option value="hours">Hours</option>
+            </select>
+          </div>
+        </div>
+        <p class="hint" id="timeHint"></p>
+      </section>
+
+      <!-- Section 4: Packaging & Delivery -->
+      <section class="card">
+        <h2 class="section-title">Packaging &amp; Delivery</h2>
+        <div class="grid-2">
+          <div class="field">
+            <label for="packagingCost">Packaging Cost ₹</label>
+            <input type="number" id="packagingCost" placeholder="e.g. 25" min="0" />
+          </div>
+          <div class="field">
+            <label for="deliveryIncluded">Delivery Included?</label>
+            <select id="deliveryIncluded">
+              <option value="no">No</option>
+              <option value="yes">Yes</option>
+            </select>
+          </div>
+          <div class="field" id="deliveryCostField">
+            <label for="deliveryCost">Delivery Cost ₹</label>
+            <input type="number" id="deliveryCost" placeholder="e.g. 60" min="0" />
+          </div>
+        </div>
+      </section>
+
+      <!-- Buttons -->
+      <div class="btn-row">
+        <button type="button" id="calcBtn" class="btn-primary">Calculate Price</button>
+        <button type="button" id="resetBtn" class="btn-ghost">Reset</button>
+      </div>
+
+    </form>
+
+    <!-- Results -->
+    <section id="results" class="card results-card hidden">
+      <h2 class="section-title">Your Pricing Summary</h2>
+
+      <!-- Cost Breakdown -->
+      <div class="breakdown-wrap">
+        <h3 class="sub-title">Cost Breakdown</h3>
+        <table class="breakdown-table">
+          <tbody id="breakdownBody"></tbody>
+          <tfoot>
+            <tr class="total-row">
+              <td>Base Cost</td>
+              <td id="baseCostCell"></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <!-- Price Cards -->
+      <div class="price-cards" id="priceCards"></div>
+
+      <!-- Analysis -->
+      <div class="analysis-box" id="analysisBox"></div>
+
+      <p class="handmade-note">✨ Handmade crochet products are priced based on time, skill, and creativity.</p>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Made with 🧶 for indie crochet sellers · Price your craft with confidence</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
