@@ -1,13 +1,12 @@
 /**
  * Crochet Pricing Calculator — script.js
  * ----------------------------------------
- * All pricing logic, UI interactions, and
- * result rendering live here.
- *
  * Pricing rates (per hour):
- *   Simple  → ₹120
- *   Medium  → ₹160
- *   Complex → ₹200
+ *   Easy          → ₹80
+ *   Easy-Mid      → ₹90
+ *   Mid           → ₹120
+ *   Mid-to-Hard   → ₹160
+ *   Hard          → ₹200
  *
  * Profit tiers:
  *   Minimum Selling Price       → 30% profit
@@ -17,9 +16,19 @@
 
 /* ── Labour rates ─────────────────────────────── */
 const LABOUR_RATE = {
-  simple:  120,
-  medium:  160,
-  complex: 200
+  easy:        80,
+  easy_mid:    90,
+  mid:        120,
+  mid_hard:   160,
+  hard:       200
+};
+
+const COMPLEXITY_LABEL = {
+  easy:      'Easy',
+  easy_mid:  'Easy-Mid',
+  mid:       'Mid',
+  mid_hard:  'Mid-to-Hard',
+  hard:      'Hard'
 };
 
 /* ── Indian market suggested ranges by type ────── */
@@ -92,16 +101,16 @@ function fmt(n) {
 /* ── Helper: selected complexity ───────────────── */
 function getComplexity() {
   const checked = document.querySelector('input[name="complexity"]:checked');
-  return checked ? checked.value : 'medium';
+  return checked ? checked.value : 'mid';
 }
 
 /* ── Main calculate function ───────────────────── */
 function calculate() {
   /* 1. Gather inputs */
   const yarnGrams      = num('yarnGrams');
-  const yarnPrice      = num('yarnPrice');       // per 100g
+  const yarnPrice      = num('yarnPrice');
   const stuffingGrams  = num('stuffingGrams');
-  const stuffingCost   = num('stuffingCost');    // per 100g
+  const stuffingCost   = num('stuffingCost');
   const accessoriesCost= num('accessoriesCost');
   const packagingCost  = num('packagingCost');
   const deliveryCost   = deliverySelect.value === 'yes' ? num('deliveryCost') : 0;
@@ -125,19 +134,20 @@ function calculate() {
   const baseCost     = materialCost + labourCost + packagingCost + deliveryCost;
 
   /* 5. Selling prices at different profit margins */
-  const minPrice     = baseCost * 1.30;  // 30% profit
-  const instaPrice   = baseCost * 1.40;  // 40% profit
-  const premiumPrice = baseCost * 1.50;  // 50% profit
+  const minPrice     = baseCost * 1.30;
+  const instaPrice   = baseCost * 1.40;
+  const premiumPrice = baseCost * 1.50;
 
   /* 6. Render cost breakdown table */
+  const complexityLabel = COMPLEXITY_LABEL[complexity];
   const rows = [
     ['🧶 Yarn',         yarnCost],
     ['🪶 Stuffing',     stuffCost],
     ['📎 Accessories',  accessoriesCost],
     ['🛍️ Packaging',   packagingCost],
     ['🚚 Delivery',     deliveryCost],
-    [`⏱️ Labour (${complexity}, ${timeHours.toFixed(2)} hr × ₹${labourRate})`, labourCost],
-  ].filter(r => r[1] > 0);  // hide zero-value rows
+    [`⏱️ Labour (${complexityLabel}, ${timeHours.toFixed(2)} hr × ₹${labourRate})`, labourCost],
+  ].filter(r => r[1] > 0);
 
   breakdownBody.innerHTML = rows.map(([label, val]) =>
     `<tr><td>${label}</td><td>${fmt(val)}</td></tr>`
@@ -177,7 +187,6 @@ function renderAnalysis(instaPrice, productType, baseCost) {
   const range   = MARKET_RANGE[productType] || MARKET_RANGE['Other'];
   const midMarket = (range.low + range.high) / 2;
 
-  // Pricing assessment
   let pricingTag, pricingMsg;
   if (instaPrice < range.low) {
     pricingTag = `<span class="tag red">Underpriced</span>`;
@@ -190,7 +199,6 @@ function renderAnalysis(instaPrice, productType, baseCost) {
     pricingMsg = `Your Instagram price (${fmt(instaPrice)}) sits nicely within the market range. Buyers are likely to consider it fair.`;
   }
 
-  // Will customers buy?
   let buyLikelihood;
   if (instaPrice <= range.low * 1.2) {
     buyLikelihood = '✅ Very likely — this is an accessible price point for Indian buyers.';
@@ -202,7 +210,6 @@ function renderAnalysis(instaPrice, productType, baseCost) {
     buyLikelihood = '⚠️ Niche audience — position as a premium / gifting brand to convert sales.';
   }
 
-  // Advice
   const advice = baseCost < 50
     ? '💬 Low material cost detected. Make sure you\'re valuing your time fairly — labour is your biggest asset!'
     : '💬 Showcase your process (reels, behind-the-scenes) to justify your price and build trust with buyers.';
@@ -237,11 +244,9 @@ function renderAnalysis(instaPrice, productType, baseCost) {
 /* ── Reset ─────────────────────────────────────── */
 function resetForm() {
   form.reset();
-  // Re-apply default state
   deliveryCostField.classList.add('hidden-field');
   timeHint.textContent = '';
   resultsSection.classList.add('hidden');
-  // Scroll to top
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
