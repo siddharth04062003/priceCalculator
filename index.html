@@ -48,16 +48,22 @@
           <label for="complexity">Complexity Level</label>
           <div class="complexity-group" id="complexity">
             <label class="chip">
-              <input type="radio" name="complexity" value="simple" /> Simple
+              <input type="radio" name="complexity" value="easy" /> Easy
             </label>
             <label class="chip">
-              <input type="radio" name="complexity" value="medium" checked /> Medium
+              <input type="radio" name="complexity" value="easy_mid" /> Easy-Mid
             </label>
             <label class="chip">
-              <input type="radio" name="complexity" value="complex" /> Complex
+              <input type="radio" name="complexity" value="mid" checked /> Mid
+            </label>
+            <label class="chip">
+              <input type="radio" name="complexity" value="mid_hard" /> Mid-to-Hard
+            </label>
+            <label class="chip">
+              <input type="radio" name="complexity" value="hard" /> Hard
             </label>
           </div>
-          <p class="hint">Simple ₹120/hr · Medium ₹160/hr · Complex ₹200/hr</p>
+          <p class="hint">Easy ₹80/hr · Easy-Mid ₹90/hr · Mid ₹120/hr · Mid-to-Hard ₹160/hr · Hard ₹200/hr</p>
         </div>
       </section>
 
@@ -145,7 +151,6 @@
     <section id="results" class="card results-card hidden">
       <h2 class="section-title">Your Pricing Summary</h2>
 
-      <!-- Cost Breakdown -->
       <div class="breakdown-wrap">
         <h3 class="sub-title">Cost Breakdown</h3>
         <table class="breakdown-table">
@@ -159,10 +164,8 @@
         </table>
       </div>
 
-      <!-- Price Cards -->
       <div class="price-cards" id="priceCards"></div>
 
-      <!-- Analysis -->
       <div class="analysis-box" id="analysisBox"></div>
 
       <p class="handmade-note">✨ Handmade crochet products are priced based on time, skill, and creativity.</p>
